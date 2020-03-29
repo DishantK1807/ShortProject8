@@ -45,7 +45,7 @@ public class HashingDriverMain {
         Timer timer = new Timer();
         switch (choice) {
             case 1:
-//			numTrials = 1; // Uncomment to Test
+			numTrials = 1; // Uncomment to Test
                 for (int i = 0; i < numTrials; i++) {
                     Shuffle.shuffle(arr);
                     result = Cuckoo.distinctElements(arr);
@@ -53,7 +53,7 @@ public class HashingDriverMain {
                 System.out.println("Cuckoo Hashing: " + result);
                 break;
             default:
-//			numTrials = 1; // Uncomment to Test
+			numTrials = 1; // Uncomment to Test
                 for (int i = 0; i < numTrials; i++) {
                     Shuffle.shuffle(arr);
                     result = distinctElements(arr);
@@ -120,5 +120,51 @@ public class HashingDriverMain {
             }
             System.out.println();
         }
+    }
+
+    /** Timer class for roughly calculating running time of programs
+     *  @author rbk
+     *  Usage:  Timer timer = new Timer();
+     *          timer.start();
+     *          timer.end();
+     *          System.out.println(timer);  // output statistics
+     */
+
+    public static class Timer {
+        long startTime, endTime, elapsedTime, memAvailable, memUsed;
+        boolean ready;
+
+        public Timer() {
+            startTime = System.currentTimeMillis();
+            ready = false;
+        }
+
+        public void start() {
+            startTime = System.currentTimeMillis();
+            ready = false;
+        }
+
+        public void scale(int num) {
+            elapsedTime /= num;
+        }
+
+        public Timer end() {
+            endTime = System.currentTimeMillis();
+            elapsedTime = endTime-startTime;
+            memAvailable = Runtime.getRuntime().totalMemory();
+            memUsed = memAvailable - Runtime.getRuntime().freeMemory();
+            ready = true;
+            return this;
+        }
+
+        public long duration() { if(!ready) { end(); }  return elapsedTime; }
+
+        public long memory()   { if(!ready) { end(); }  return memUsed; }
+
+        public String toString() {
+            if(!ready) { end(); }
+            return "Time: " + elapsedTime + " msec.\n" + "Memory: " + (memUsed/1048576) + " MB / " + (memAvailable/1048576) + " MB.";
+        }
+
     }
 }
