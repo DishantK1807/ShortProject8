@@ -1,4 +1,4 @@
-package dxk180015;
+package dxk180015_txg170003;
 
 /**
  * Short Project 8: Hashing
@@ -11,8 +11,8 @@ public class Cuckoo<T> {
 	int capacity; // Len of Hash Table
 	Entry<T>[][] hashTable;
 	int size;
-	double loadFactor = 0.5; // open-addressing default
-	int threshold; // limit for no of replacements on collision
+	double loadFactor = 0.9; // Change to desired value
+	int threshold_value; // limit for no of replacements on collision
 
 	// Entry corresponding to an element in Hash Table
 	class Entry<E> {
@@ -28,7 +28,7 @@ public class Cuckoo<T> {
 		numHash = 3;
 		capacity = 1024;
 		hashTable = new Entry[capacity][numHash];
-		threshold = (int) Math.log((double) capacity);
+		threshold_value = (int) Math.log((double) capacity);
 	}
 
 	// Code extracted from Java HashMap:
@@ -95,7 +95,7 @@ public class Cuckoo<T> {
 
 		i = 1;
 		int count = 0;
-		while (count < threshold) {
+		while (count < threshold_value) {
 			count++;
 			cell = i - 1;
 			location = hashFunction(i, x);
@@ -109,7 +109,6 @@ public class Cuckoo<T> {
 				}
 				return true;
 			}
-			// replace it with it's place holder, when can't insert x,
 			else {
 				T temp = (T) hashTable[location][cell].element;
 				hashTable[location][cell].element = x;
@@ -179,10 +178,10 @@ public class Cuckoo<T> {
 
 	private void rehash() {
 		Entry<T>[][] temp = hashTable;
-		size = 0; // as a new hash table is to be created
+		size = 0;
 		capacity = capacity * 2;
 		hashTable = new Entry[capacity][numHash];
-		threshold = (int) Math.log((double) capacity);
+		threshold_value = (int) Math.log((double) capacity);
 
 		int location = 0;
 		int cell = 0;
@@ -259,7 +258,7 @@ public class Cuckoo<T> {
 		//int[] num =       {24, 20, 53, 1, 12, 0, 3, 24, 0, 45, 42, 30, 12, 50, 24, 49, 26, 17};
 		//int[] operation = {59, 33, 6, 11, 54, 2, 6, 97, 25, 73, 32, 18, 79, 19, 97, 22, 36, 60};
 		int[] num =       {187, 121, 62, 166, 35, 43, 3, 24, 0, 45, 42, 30, 12, 50, 24, 49, 26, 17};
-		int[] operation = {20, 33, 6, 11, 54, 2, 6, 97, 25, 73, 32, 18, 79, 19, 97, 22, 36, 60};
+		int[] operation = {201, 33, 6, 112, 54, 42, 6, 97, 25, 713, 32, 180, 79, 19, 97, 22, 036, 60};
 
 		System.out.println("Key \t h1(x) \t h2(x)");
 		for (int i = 0; i < N; i++) {
